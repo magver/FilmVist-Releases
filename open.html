@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>FilmVist — Открытие фильма</title>
+  <meta name="description" content="Фильмы и сериалы в приложении FilmVist. Высокое качество, любимые озвучки!">
+
+  <!-- Open Graph / Telegram / VK / Facebook -->
+  <meta property="og:type" content="video.other">
+  <meta property="og:site_name" content="FilmVist">
+  <meta property="og:title" content="FilmVist — Смотреть фильмы и сериалы онлайн">
+  <meta property="og:description" content="Смотри фильмы и сериалы в высоком качестве и с любимой озвучкой в приложении FilmVist!">
+  <meta property="og:image" content="logo.png">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="FilmVist — Смотреть фильмы и сериалы онлайн">
+  <meta name="twitter:description" content="Смотри фильмы и сериалы в высоком качестве и с любимой озвучкой в приложении FilmVist!">
+  <meta name="twitter:image" content="logo.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #070d18;
+      --card: #0e1726;
+      --primary: #f5b301;
+      --neon: #ffc933;
+      --text: #ffffff;
+      --subtext: #94a3b8;
+      --border: rgba(6, 182, 212, 0.35);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg);
+      background-image: radial-gradient(circle at 50% 20%, rgba(6, 182, 212, 0.15), transparent 60%);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(6, 182, 212, 0.2);
+      max-width: 440px;
+      width: 100%;
+      padding: 32px 28px;
+      text-align: center;
+      animation: fadeIn 0.4s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .logo-container {
+      width: 68px;
+      height: 68px;
+      background: rgba(6, 182, 212, 0.12);
+      border: 1.5px solid var(--primary);
+      border-radius: 20px;
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
+    }
+    .poster-img {
+      width: 90px;
+      height: 130px;
+      object-fit: cover;
+      border-radius: 16px;
+      margin: 0 auto 20px;
+      display: none;
+      border: 1.5px solid var(--primary);
+      box-shadow: 0 8px 24px rgba(6, 182, 212, 0.3);
+    }
+    .logo-svg {
+      width: 34px;
+      height: 34px;
+      fill: var(--primary);
+    }
+    h1 {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 6px;
+      letter-spacing: -0.5px;
+    }
+    .info {
+      color: var(--neon);
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+    .desc {
+      color: var(--subtext);
+      font-size: 13px;
+      line-height: 1.5;
+      margin-bottom: 26px;
+    }
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 14px 20px;
+      border-radius: 14px;
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: none;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #f5b301 0%, #e0a000 100%);
+      color: #1d1500;
+      box-shadow: 0 8px 24px rgba(245, 179, 1, 0.35);
+      margin-bottom: 12px;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(245, 179, 1, 0.5);
+    }
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+    .status-spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <img id="posterImg" class="poster-img" alt="Постер" />
+    <div class="logo-container">
+      <svg class="logo-svg" viewBox="0 0 24 24">
+        <path d="M5 3l14 9-14 9V3z"/>
+      </svg>
+    </div>
+    <h1>FilmVist</h1>
+    <div class="info" id="epInfo">Запуск приложения...</div>
+    <p class="desc" id="statusDesc">
+      Перенаправляем в приложение FilmVist для мгновенного просмотра...
+    </p>
+
+    <a href="#" id="launchBtn" class="btn btn-primary">
+      <span class="status-spinner" id="spinner"></span>
+      <span id="launchText">Открыть в FilmVist</span>
+    </a>
+
+    <a href="https://github.com/magver/FilmVist-Releases/releases/latest" target="_blank" class="btn btn-secondary">
+      Скачать FilmVist (Windows / Android)
+    </a>
+  </div>
+
+  <script>
+    (function() {
+      var params = new URLSearchParams(window.location.search);
+      var rawAnimeId = params.get('animeId') || params.get('id');
+      var animeId = rawAnimeId ? rawAnimeId.trim().replace(/\/+$/, '') : null;
+      var title = params.get('title') || '';
+      var rawPoster = params.get('poster') || '';
+      var rawSeason = params.get('season') || params.get('s');
+      var season = rawSeason ? rawSeason.trim().replace(/\/+$/, '') : null;
+      var rawEpisode = params.get('episode') || params.get('ep');
+      var episode = rawEpisode ? rawEpisode.trim().replace(/\/+$/, '') : null;
+
+      if (title) {
+        document.title = title + ' — FilmVist';
+      }
+
+      var posterEl = document.getElementById('posterImg');
+      var logoEl = document.querySelector('.logo-container');
+      if (rawPoster && posterEl) {
+        posterEl.src = rawPoster;
+        posterEl.style.display = 'block';
+        if (logoEl) logoEl.style.display = 'none';
+      }
+
+      var epInfoEl = document.getElementById('epInfo');
+      var launchBtn = document.getElementById('launchBtn');
+      var statusDesc = document.getElementById('statusDesc');
+      var spinner = document.getElementById('spinner');
+
+      var appUrl = 'filmvist://';
+      var intentUrl = '';
+
+      if (animeId && episode) {
+        var sNum = season || '1';
+        epInfoEl.innerText = (title ? title + ' — ' : '') + 'Сезон ' + sNum + ', ' + episode + ' серия';
+        appUrl = 'filmvist://watch?animeId=' + encodeURIComponent(animeId) + '&season=' + encodeURIComponent(sNum) + '&episode=' + encodeURIComponent(episode);
+        intentUrl = 'intent://watch?animeId=' + encodeURIComponent(animeId) + '&season=' + encodeURIComponent(sNum) + '&episode=' + encodeURIComponent(episode) + '#Intent;scheme=filmvist;package=com.filmvist.app;end';
+      } else if (animeId) {
+        epInfoEl.innerText = title ? 'Фильм: ' + title : 'Страница фильма';
+        appUrl = 'filmvist://details?animeId=' + encodeURIComponent(animeId);
+        intentUrl = 'intent://details?animeId=' + encodeURIComponent(animeId) + '#Intent;scheme=filmvist;package=com.filmvist.app;end';
+      } else {
+        epInfoEl.innerText = 'Главное меню';
+      }
+
+      launchBtn.href = appUrl;
+
+      // Detect Android
+      var isAndroid = /Android/i.test(navigator.userAgent);
+
+      function triggerOpen() {
+        if (isAndroid && intentUrl) {
+          window.location.href = intentUrl;
+          setTimeout(function() {
+            window.location.href = appUrl;
+          }, 350);
+        } else {
+          window.location.href = appUrl;
+        }
+      }
+
+      // Automatically attempt to open the app
+      triggerOpen();
+
+      // UI state after 1.5 seconds if user stays on page
+      setTimeout(function() {
+        if (spinner) spinner.style.display = 'none';
+        statusDesc.innerText = 'Если приложение не открылось автоматически, нажмите кнопку «Открыть в FilmVist» или установите приложение.';
+      }, 1500);
+
+      launchBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        triggerOpen();
+      });
+    })();
+  </script>
+</body>
+</html>
